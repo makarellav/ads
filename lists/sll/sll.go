@@ -3,49 +3,53 @@ package sll
 type List[T comparable] struct {
 	head *node[T]
 	tail *node[T]
-	Len  int
+	len  int
 }
 
-func (lst *List[T]) Push(val T) *List[T] {
+func (list *List[T]) Len() int {
+	return list.len
+}
+
+func (list *List[T]) Push(val T) *List[T] {
 	newNode := &node[T]{val: val}
 
-	if lst.head == nil {
-		lst.head = newNode
-		lst.tail = lst.head
+	if list.head == nil {
+		list.head = newNode
+		list.tail = list.head
 	} else {
-		lst.tail.next = newNode
-		lst.tail = newNode
+		list.tail.next = newNode
+		list.tail = newNode
 	}
 
-	lst.Len++
+	list.len++
 
-	return lst
+	return list
 }
 
-func (lst *List[T]) PopFront() (v T, ok bool) {
-	if lst.head == nil {
+func (list *List[T]) PopFront() (v T, ok bool) {
+	if list.head == nil {
 		return zeroValue[T](), false
 	}
 
-	oldHead := lst.head
+	oldHead := list.head
 
-	lst.head = oldHead.next
+	list.head = oldHead.next
 
-	lst.Len--
+	list.len--
 
-	if lst.Len == 0 {
-		lst.tail = nil
+	if list.len == 0 {
+		list.tail = nil
 	}
 
 	return oldHead.val, true
 }
 
-func (lst *List[T]) Pop() (v T, ok bool) {
-	if lst.tail == nil {
+func (list *List[T]) Pop() (v T, ok bool) {
+	if list.tail == nil {
 		return zeroValue[T](), false
 	}
 
-	current := lst.head
+	current := list.head
 	newTail := current
 
 	for current.next != nil {
@@ -53,41 +57,41 @@ func (lst *List[T]) Pop() (v T, ok bool) {
 		current = current.next
 	}
 
-	lst.tail = newTail
-	lst.tail.next = nil
+	list.tail = newTail
+	list.tail.next = nil
 
-	lst.Len--
+	list.len--
 
-	if lst.Len == 0 {
-		lst.head = nil
-		lst.tail = nil
+	if list.len == 0 {
+		list.head = nil
+		list.tail = nil
 	}
 
 	return current.val, true
 }
 
-func (lst *List[T]) PushFront(val T) *List[T] {
+func (list *List[T]) PushFront(val T) *List[T] {
 	newNode := &node[T]{val: val}
 
-	if lst.Len == 0 {
-		lst.head = newNode
-		lst.tail = lst.head
+	if list.len == 0 {
+		list.head = newNode
+		list.tail = list.head
 	} else {
-		newNode.next = lst.head
-		lst.head = newNode
+		newNode.next = list.head
+		list.head = newNode
 	}
 
-	lst.Len++
+	list.len++
 
-	return lst
+	return list
 }
 
-func (lst *List[T]) findByIndex(idx int) (n *node[T], ok bool) {
-	if idx < 0 || idx >= lst.Len {
+func (list *List[T]) findByIndex(idx int) (n *node[T], ok bool) {
+	if idx < 0 || idx >= list.len {
 		return &node[T]{}, false
 	}
 
-	current := lst.head
+	current := list.head
 
 	for i := 0; i < idx; i++ {
 		current = current.next
@@ -96,8 +100,8 @@ func (lst *List[T]) findByIndex(idx int) (n *node[T], ok bool) {
 	return current, true
 }
 
-func (lst *List[T]) FindByIndex(idx int) (v T, ok bool) {
-	n, found := lst.findByIndex(idx)
+func (list *List[T]) FindByIndex(idx int) (v T, ok bool) {
+	n, found := list.findByIndex(idx)
 
 	if !found {
 		return zeroValue[T](), false
@@ -106,36 +110,36 @@ func (lst *List[T]) FindByIndex(idx int) (v T, ok bool) {
 	return n.val, true
 }
 
-func (lst *List[T]) Insert(val T, idx int) bool {
-	if idx < 0 || idx > lst.Len {
+func (list *List[T]) Insert(val T, idx int) bool {
+	if idx < 0 || idx > list.len {
 		return false
 	}
 
 	if idx == 0 {
-		lst.PushFront(val)
+		list.PushFront(val)
 
 		return true
 	}
 
-	if idx == lst.Len {
-		lst.Push(val)
+	if idx == list.len {
+		list.Push(val)
 
 		return true
 	}
 
 	newNode := &node[T]{val: val}
-	prevNode, _ := lst.findByIndex(idx - 1)
+	prevNode, _ := list.findByIndex(idx - 1)
 
 	newNode.next = prevNode.next
 	prevNode.next = newNode
 
-	lst.Len++
+	list.len++
 
 	return true
 }
 
-func (lst *List[T]) Set(val T, idx int) bool {
-	node, ok := lst.findByIndex(idx)
+func (list *List[T]) Set(val T, idx int) bool {
+	node, ok := list.findByIndex(idx)
 
 	if !ok {
 		return false
@@ -146,35 +150,35 @@ func (lst *List[T]) Set(val T, idx int) bool {
 	return true
 }
 
-func (lst *List[T]) RemoveByIndex(idx int) bool {
-	if idx < 0 || idx >= lst.Len {
+func (list *List[T]) RemoveByIndex(idx int) bool {
+	if idx < 0 || idx >= list.len {
 		return false
 	}
 
 	if idx == 0 {
-		lst.PopFront()
+		list.PopFront()
 
 		return true
 	}
 
-	if idx == lst.Len-1 {
-		lst.Pop()
+	if idx == list.len-1 {
+		list.Pop()
 
 		return true
 	}
 
-	prevNode, _ := lst.findByIndex(idx - 1)
+	prevNode, _ := list.findByIndex(idx - 1)
 
 	prevNode.next = prevNode.next.next
 
-	lst.Len--
+	list.len--
 
 	return true
 }
 
-func (lst *List[T]) IndexOf(val T) int {
+func (list *List[T]) IndexOf(val T) int {
 	var idx int
-	current := lst.head
+	current := list.head
 
 	for current != nil {
 		if current.val == val {
@@ -188,15 +192,15 @@ func (lst *List[T]) IndexOf(val T) int {
 	return -1
 }
 
-func (lst *List[T]) Contains(val T) bool {
-	return lst.IndexOf(val) != -1
+func (list *List[T]) Contains(val T) bool {
+	return list.IndexOf(val) != -1
 }
 
-func (lst *List[T]) Reverse() *List[T] {
+func (list *List[T]) Reverse() *List[T] {
 	var prev *node[T] = nil
 	var next *node[T] = nil
 
-	current := lst.head
+	current := list.head
 
 	for current != nil {
 		next = current.next
@@ -205,9 +209,9 @@ func (lst *List[T]) Reverse() *List[T] {
 		current = next
 	}
 
-	lst.head, lst.tail = lst.tail, lst.head
+	list.head, list.tail = list.tail, list.head
 
-	return lst
+	return list
 }
 
 func New[T comparable]() *List[T] {
