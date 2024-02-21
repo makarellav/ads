@@ -1,11 +1,8 @@
-package binary
+package search
 
 import "cmp"
 
-// {1, 2, 3, 4, 500, 1000, 1500}
-//              -4          -6
-
-func Search[T ~[]K, K cmp.Ordered](array T, target K) int {
+func BinarySearch[T ~[]K, K cmp.Ordered](array T, target K) int {
 	left := 0
 	right := len(array) - 1
 

@@ -1,11 +1,11 @@
-package binary
+package search
 
 import (
 	"slices"
 	"testing"
 )
 
-func TestSearch(t *testing.T) {
+func TestBinary(t *testing.T) {
 	array := []int{1, 2, 3, 4, 500, 1000, 1500}
 
 	tests := []struct {
@@ -32,7 +32,7 @@ func TestSearch(t *testing.T) {
 
 	for i, tt := range tests {
 		wantIdx, ok := slices.BinarySearch(array, tt.target)
-		gotIdx := Search(array, tt.target)
+		gotIdx := BinarySearch(array, tt.target)
 
 		if !ok && gotIdx != -1 {
 			t.Errorf("tests[%d]: expected not to find %d, found it by index %d", i, tt.target, gotIdx)

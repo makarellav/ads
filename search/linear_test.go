@@ -1,4 +1,4 @@
-package linear
+package search
 
 import (
 	"testing"
@@ -34,7 +34,7 @@ func TestLinear(t *testing.T) {
 	}
 
 	for i, tt := range tests {
-		gotIdx := Search(array, tt.target)
+		gotIdx := LinearSearch(array, tt.target)
 
 		if gotIdx != tt.wantIdx {
 			t.Errorf("tests[%d]: expected to find %d by index %d, got index %d", i, tt.target, tt.wantIdx, gotIdx)

@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/makarellav/ads/search/binary"
+	"github.com/makarellav/ads/sort"
 )
 
 func main() {
-	fmt.Println(binary.Search([]int{1, 2, 3, 4, 5, 6}, 6))
+	x := []int{6, 5, 4, 3, 2, 1}
+	sort.BubbleSort(x)
+	fmt.Println(x)
 }
