@@ -2,13 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/makarellav/ads/lists/sll"
+	"github.com/makarellav/ads/search/binary"
 )
 
 func main() {
-	singlyLinkedList := sll.New[int]()
-
-	singlyLinkedList.Push(10).Push(321)
-
-	fmt.Println(singlyLinkedList.IndexOf(321))
+	fmt.Println(binary.Search([]int{1, 2, 3, 4, 5, 6}, 6))
 }
