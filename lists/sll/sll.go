@@ -6,6 +6,10 @@ type List[T comparable] struct {
 	len  int
 }
 
+func New[T comparable]() *List[T] {
+	return &List[T]{}
+}
+
 func (list *List[T]) Len() int {
 	return list.len
 }
@@ -13,15 +17,17 @@ func (list *List[T]) Len() int {
 func (list *List[T]) Push(val T) *List[T] {
 	newNode := &node[T]{val: val}
 
+	list.len++
+
 	if list.head == nil {
 		list.head = newNode
 		list.tail = list.head
-	} else {
-		list.tail.next = newNode
-		list.tail = newNode
+
+		return list
 	}
 
-	list.len++
+	list.tail.next = newNode
+	list.tail = newNode
 
 	return list
 }
@@ -73,15 +79,17 @@ func (list *List[T]) Pop() (v T, ok bool) {
 func (list *List[T]) PushFront(val T) *List[T] {
 	newNode := &node[T]{val: val}
 
+	list.len++
+
 	if list.len == 0 {
 		list.head = newNode
 		list.tail = list.head
-	} else {
-		newNode.next = list.head
-		list.head = newNode
+
+		return list
 	}
 
-	list.len++
+	newNode.next = list.head
+	list.head = newNode
 
 	return list
 }
@@ -197,8 +205,8 @@ func (list *List[T]) Contains(val T) bool {
 }
 
 func (list *List[T]) Reverse() *List[T] {
-	var prev *node[T] = nil
-	var next *node[T] = nil
+	var prev *node[T]
+	var next *node[T]
 
 	current := list.head
 
@@ -212,8 +220,4 @@ func (list *List[T]) Reverse() *List[T] {
 	list.head, list.tail = list.tail, list.head
 
 	return list
-}
-
-func New[T comparable]() *List[T] {
-	return &List[T]{}
 }

@@ -2,11 +2,19 @@ package main
 
 import (
 	"fmt"
-	"github.com/makarellav/ads/sort"
+	"github.com/makarellav/ads/stack"
 )
 
 func main() {
-	x := []int{6, 5, 4, 3, 2, 1}
-	sort.BubbleSort(x)
-	fmt.Println(x)
+	s := stack.New[int]()
+
+	s.Push(1)
+	s.Push(321)
+	s.Pop()
+	s.Pop()
+	s.Pop()
+	s.Pop()
+	_, ok := s.Peek()
+
+	fmt.Println(ok)
 }
